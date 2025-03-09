@@ -12,6 +12,9 @@ BOT_NAME = "scrapy_tutorial"
 SPIDER_MODULES = ["scrapy_tutorial.spiders"]
 NEWSPIDER_MODULE = "scrapy_tutorial.spiders"
 
+FEEDS = {
+    'book_data.json'    :   {'format': 'json'}
+}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "scrapy_tutorial (+http://www.yourdomain.com)"
@@ -64,6 +67,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    "scrapy_tutorial.pipelines.ScrapyTutorialPipeline": 300,
+   "scrapy_tutorial.pipelines.SaveToMySQLPipeline": 400
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

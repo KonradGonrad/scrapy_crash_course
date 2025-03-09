@@ -24,7 +24,7 @@ class ScrapyTutorialPipeline:
             value = adapter.get(lowercase_key)
             adapter[lowercase_key] = value.lower()
 
-        price_keys = ['price', 'price_inc_tax', 'price_ex_tax']
+        price_keys = ['price', 'price_inc_tax', 'price_ex_tax', 'tax']
         for price_key in price_keys:
             value = adapter.get(price_key)
             value = value.replace('£', '')
@@ -58,3 +58,82 @@ class ScrapyTutorialPipeline:
             adapter['stars'] = 5
 
         return item
+    
+import mysql.connector
+class SaveToMySQLPipeline:
+    def __init__(self):
+        self.conn = mysql.connector.connect(
+            host = 'localhost',
+            user = 'root',
+            password = 'ZAQ!2wsx',
+            database = 'books'
+        )
+
+        self.cur = self.conn.cursor()
+
+        self.cur.execute("""CREATE TABLE IF NOT EXISTS books(
+                         id int NOT NULL auto_increment,
+                         name text,
+                         url VARCHAR(255),
+                         product_type VARCHAR(255),
+                         price_ex_tax DECIMAL,
+                         price_inc_tax DECIMAL,
+                         tax DECIMAl,
+                         avability INTEGER,
+                         num_reviews INTEGER,
+                         stars INTEGER,
+                         category VARCHAR(255),
+                         description text,
+                         price DECIMAL,
+                         PRIMARY KEY (id)
+                         )""")
+    
+    def process_item(self, item, spider):
+        self.cur.execute("""insert into books (
+                         name,
+                         url,
+                         product_type,
+                         price_ex_tax,
+                         price_inc_tax,
+                         tax,
+                         avability,
+                         num_reviews,
+                         stars,
+                         category,
+                         description,
+                         price) VALUES (
+                            %s,
+                            %s,
+                            %s,
+                            %s,
+                            %s,
+                            %s,
+                            %s,
+                            %s,
+                            %s,
+                            %s,
+                            %s,
+                            %s);""",
+                            (
+                                item["name"],
+                                item["url"],
+                                item["product_type"],
+                                item["price_ex_tax"],
+                                item["price_inc_tax"],
+                                item["tax"],
+                                item["avability"],
+                                item["num_reviews"],
+                                item["stars"],
+                                item["category"],
+                                str(item["description"][0]),
+                                item["price"]
+
+                            )
+        )
+
+        self.conn.commit()
+        return item
+    
+    def close_spider(self, spider):
+        self.cur.close()
+        self.conn.close()

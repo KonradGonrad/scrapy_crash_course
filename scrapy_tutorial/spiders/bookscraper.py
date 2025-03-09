@@ -33,6 +33,12 @@ class BookscraperSpider(scrapy.Spider):
         table_rows = response.css('table tr')
         book_item = BookItem()
 
+        custom_settings = {
+            'FEEDS' :   {
+                'book_data.json': {'format':   'json', 'overwrite': True},
+            } 
+        }
+
         book_item['name']  =   response.css('div.product_main h1::text').get(),
         book_item['url']   =   response.url,
         book_item['product_type']  =   table_rows[1].css('td::text').get(),
