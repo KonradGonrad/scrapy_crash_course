@@ -67,8 +67,10 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    "scrapy_tutorial.pipelines.ScrapyTutorialPipeline": 300,
-   "scrapy_tutorial.pipelines.SaveToMySQLPipeline": 400
+#    "scrapy_tutorial.pipelines.SaveToMySQLPipeline": 400
 }
+
+# USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
