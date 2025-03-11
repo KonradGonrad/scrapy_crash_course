@@ -25,6 +25,17 @@ FEEDS = {
     'book_data.json'    :   {'format': 'json'}
 }
 
+# ROTATING_PROXY_LIST = [
+#     '138.201.21.228:55267',
+#     '137.220.171.79:1086',
+#     '142.93.202.130:3128',
+# ]
+
+# PROXY_USER = 'USERNAME'
+# PROXY_PASSWORD = 'PASSWORD'
+# PROXY_ENDPOINT = 'link'
+# PROXY_PORT = 'port'
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "scrapy_tutorial (+http://www.yourdomain.com)"
@@ -64,9 +75,12 @@ ROBOTSTXT_OBEY = False
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-#    "scrapy_tutorial.middlewares.ScrapyTutorialDownloaderMiddleware": 543,
+   "scrapy_tutorial.middlewares.ScrapyTutorialDownloaderMiddleware": 543,
 #    "scrapy_tutorial.middlewares.ScrapeOpsFakeUserAgentMiddleware": 400,
    "scrapy_tutorial.middlewares.ScrapeOpsFakeBrowserHeaderAgentMiddleware": 300,
+#    "scrapy_tutorial.middlewares.MyProxyMiddleware":250,
+#    'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
+#    'rotating_proxies.middlewares.BanDetectionMiddleware': 620,
 }
 
 # Enable or disable extensions

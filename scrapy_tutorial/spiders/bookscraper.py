@@ -1,6 +1,15 @@
 import scrapy
 import random
 from scrapy_tutorial.items import BookItem
+from urllib.parse import urlencode
+
+# API_KEY = 'af1fb38b-7667-44ef-bee6-3fed8ffc67a1'
+
+# def get_proxy_url(url):
+#     payload = {'api_key': API_KEY, 'url': url}
+#     proxy_url = 'https://proxy.scrapeops.io/v1/' + urlencode(payload)
+#     return proxy_url
+
 
 class BookscraperSpider(scrapy.Spider):
     name = "bookscraper"
@@ -12,6 +21,9 @@ class BookscraperSpider(scrapy.Spider):
                 'book_data.json': {'format':   'json', 'overwrite': True},
             } 
         }
+    
+    # def start_requests(self):
+    #     yield scrapy.Request(url=get_proxy_url(self.start_urls[0]), callback=self.parse)
 
     def parse(self, response):
         books = response.css('article.product_pod')
